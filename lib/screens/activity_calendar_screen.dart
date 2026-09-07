@@ -106,23 +106,11 @@ class _ActivityCalendarScreenState
                               _buildCalendar({}, locale, service, isZh),
                         ),
                         // 图例与对应的日历保持在同一张卡片内。
-                        recordsAsync.whenOrNull(
-                              data: (records) => records.isNotEmpty
-                                  ? _buildLegend(theme, isZh)
-                                  : const SizedBox.shrink(),
-                            ) ??
-                            const SizedBox.shrink(),
+                        _buildLegend(theme, isZh),
                       ],
                     ),
                   ),
                 ),
-                // 空月份提示
-                recordsAsync.whenOrNull(
-                      data: (records) => records.isEmpty
-                          ? _buildEmptyHint(theme, l10n)
-                          : const SizedBox.shrink(),
-                    ) ??
-                    const SizedBox.shrink(),
                 const SizedBox(height: AppSpacing.s),
                 const StudyDurationChart(),
               ],
@@ -324,20 +312,6 @@ class _ActivityCalendarScreenState
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  /// 空月份提示
-  Widget _buildEmptyHint(ThemeData theme, AppLocalizations l10n) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.l),
-      child: Text(
-        l10n.noActivityThisMonth,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-        textAlign: TextAlign.center,
       ),
     );
   }

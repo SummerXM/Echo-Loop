@@ -1859,6 +1859,7 @@
 
   "activityCalendar": "Activity Calendar",
   "noActivityThisMonth": "No learning activity this month",
+  "studyDurationNoRecords": "No study records",
   "monthlySummaryTitle": "{month} Statistics",
   "@monthlySummaryTitle": {
     "placeholders": {

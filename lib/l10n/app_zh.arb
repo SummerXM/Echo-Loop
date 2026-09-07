@@ -1441,6 +1441,7 @@
 
   "activityCalendar": "学习日历",
   "noActivityThisMonth": "本月暂无学习记录",
+  "studyDurationNoRecords": "暂无学习记录",
   "monthlySummaryTitle": "{month}月统计",
   "@monthlySummaryTitle": {
     "placeholders": {

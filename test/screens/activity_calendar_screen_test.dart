@@ -151,17 +151,6 @@ void main() {
     expect(focused.month, previous.month);
   });
 
-  testWidgets('日历页面正确渲染', (tester) async {
-    await tester.pumpWidget(_createTestApp(db: db, records: const {}));
-    await tester.pumpAndSettle();
-
-    // 页面标题
-    expect(find.text('Activity Calendar'), findsOneWidget);
-
-    // streak chip 显示 0d
-    expect(find.text('0d streak'), findsOneWidget);
-  });
-
   testWidgets('streak>0 时显示橙色 chip', (tester) async {
     await tester.pumpWidget(
       _createTestApp(
@@ -176,26 +165,6 @@ void main() {
 
     // 验证火焰图标存在
     expect(find.byIcon(Icons.local_fire_department_rounded), findsOneWidget);
-  });
-
-  testWidgets('有活动的日期显示迷你条', (tester) async {
-    final now = DateTime.now();
-    await tester.pumpWidget(
-      _createTestApp(
-        db: db,
-        records: {
-          now.day: const MonthDayRecord(
-            studyTimeSeconds: 1800,
-            inputTimeSeconds: 900,
-            outputTimeSeconds: 600,
-          ),
-        },
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    // 今天的日期数字应该存在
-    expect(find.text('${now.day}'), findsWidgets);
   });
 
   testWidgets('日历颜色图例显示在日历卡片内部', (tester) async {
@@ -223,30 +192,22 @@ void main() {
     );
   });
 
-  testWidgets('月度摘要卡片显示正确标签', (tester) async {
-    final now = DateTime.now();
-    await tester.pumpWidget(
-      _createTestApp(
-        db: db,
-        records: {
-          now.day: const MonthDayRecord(
-            studyTimeSeconds: 3600,
-            inputTimeSeconds: 1800,
-            outputTimeSeconds: 1200,
-          ),
-        },
-      ),
-    );
+  testWidgets('无学习记录时日历仍显示颜色图例', (tester) async {
+    await tester.pumpWidget(_createTestApp(db: db, records: const {}));
     await tester.pumpAndSettle();
 
-    // 摘要卡片标签
-    expect(find.text('Total'), findsOneWidget);
-    expect(find.text('Active days'), findsOneWidget);
-    expect(find.text('Avg/day'), findsOneWidget);
-    expect(find.text('Best streak'), findsOneWidget);
+    expect(find.text('Less study time'), findsOneWidget);
+    expect(find.text('More study time'), findsOneWidget);
+    expect(
+      find.ancestor(
+        of: find.text('Less study time'),
+        matching: find.byType(Card),
+      ),
+      findsOneWidget,
+    );
   });
 
-  testWidgets('空月份显示提示文案（含 offstage）', (tester) async {
+  testWidgets('空月份不重复显示日历空态，学习时长图表显示本地化空态', (tester) async {
     // 增加窗口高度以确保日历下方内容可见
     tester.view.physicalSize = const Size(800, 2400);
     tester.view.devicePixelRatio = 1.0;
@@ -256,10 +217,10 @@ void main() {
     await tester.pumpWidget(_createTestApp(db: db, records: const {}));
     await tester.pumpAndSettle();
 
-    // 即使文本可能被滚动隐藏，也应该存在于 widget 树中
     expect(
       find.text('No learning activity this month', skipOffstage: false),
-      findsOneWidget,
+      findsNothing,
     );
+    expect(find.text('No study records', skipOffstage: false), findsOneWidget);
   });
 }

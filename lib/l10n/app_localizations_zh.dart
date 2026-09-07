@@ -3316,6 +3316,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noActivityThisMonth => '本月暂无学习记录';
 
   @override
+  String get studyDurationNoRecords => '暂无学习记录';
+
+  @override
   String monthlySummaryTitle(String month) {
     return '$month月统计';
   }

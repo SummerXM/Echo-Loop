@@ -77,9 +77,13 @@ class _StudyDurationChartState extends ConsumerState<StudyDurationChart> {
               ),
               data: (buckets) =>
                   buckets.every((bucket) => bucket.totalSeconds == 0)
-                  ? const SizedBox(
+                  ? SizedBox(
                       height: 100,
-                      child: Center(child: Text('No study records')),
+                      child: Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.studyDurationNoRecords,
+                        ),
+                      ),
                     )
                   : _BucketList(
                       key: ValueKey(_granularity),

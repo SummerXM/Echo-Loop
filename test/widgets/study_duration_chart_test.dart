@@ -36,6 +36,7 @@ void main() {
     StudyTimeService? service,
     int totalSeconds = 3900,
     List<StudyDurationBucket>? buckets,
+    Locale locale = const Locale('zh'),
   }) {
     return ProviderScope(
       overrides: [
@@ -70,9 +71,9 @@ void main() {
                 ],
           ),
       ],
-      child: const MaterialApp(
-        locale: Locale('zh'),
-        supportedLocales: [Locale('zh')],
+      child: MaterialApp(
+        locale: locale,
+        supportedLocales: [Locale('zh'), Locale('en')],
         localizationsDelegates: [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
